@@ -17,7 +17,7 @@ class AmazonS3Storage(StreamingStorage, ExternalStorage):
         self.bucket_name = bucket_name
         self.path_prefix = path_prefix
         self.s3 = boto3.resource('s3')
-        self.s3_client = boto3.client('s3')
+        self.s3_client = boto3.client('s3', config=botocore.client.Config(signature_version='s3v4'))
 
     def get(self, prefix: str, oid: str) -> Iterable[bytes]:
         if not self.exists(prefix, oid):
